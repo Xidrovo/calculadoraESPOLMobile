@@ -27,20 +27,20 @@ void main() {
 
     test('getMinScore returns correct value', () {
       calculatorController.theoricPorcentage = 80;
-      calculatorController.firstPartial = 80;
+      calculatorController.firstPartial = 50;
       calculatorController.secondPartial = 60;
       calculatorController.practicalNote = 50;
-      final result = calculatorController.getMinScore(66);
-      expect(result, -1);
+      final result = calculatorController.getMinScore(54);
+      expect(result, 65);
     });
 
     test('getTotal returns correct value', () {
       calculatorController.theoricPorcentage = 80;
-      calculatorController.firstPartial = 80;
-      calculatorController.secondPartial = 60;
+      calculatorController.firstPartial = 79;
+      calculatorController.secondPartial = 59;
       calculatorController.practicalNote = 50;
       final result = calculatorController.getTotal();
-      expect(result, 66.0);
+      expect(result, 65.2);
     });
 
     test('assertions values throw errors', () {

@@ -78,7 +78,7 @@ class CalculatorController implements Calculator {
     final double practicalScore = getPracticalScore();
 
 		final double result = theoricScore + practicalScore;
-		final double score = result.roundToDouble();
+		final double score = result;
 		getMinScore(result);
     return score;
   }

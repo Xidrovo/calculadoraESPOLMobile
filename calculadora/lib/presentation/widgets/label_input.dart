@@ -20,12 +20,17 @@ class _labelInputState extends State<labelInput> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(widget.label),
-        TextFormField(      
-          decoration: const InputDecoration(
-            filled: true
+        Text(widget.label, textAlign: TextAlign.left),
+        TextFormField(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0)
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            hintText: "ej: 80"
           ),
         ),
       ],
