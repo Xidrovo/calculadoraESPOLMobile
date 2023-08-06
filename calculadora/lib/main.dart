@@ -13,16 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Calculadora de promedios',
       theme: AppTheme().theme(),
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-        appBar: AppBar(
-          foregroundColor: Colors.white,
-          backgroundColor: const Color(0xFF004448),
-          title: const Text('Calculadora de promedios'),
-        ),
-        body: const calculatorScreen(),
-        ) ,        
-      ),
+      home: const CalculatorScreen(),
     );
   }
 }
