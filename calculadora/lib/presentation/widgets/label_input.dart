@@ -1,39 +1,49 @@
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
-class labelInput extends StatefulWidget {
+class LabelInput extends StatefulWidget {
   final String label;
   final Function? onChange;
-  
-  const labelInput({
+
+  const LabelInput({
     super.key,
     required this.label,
     this.onChange,
-    });
+  });
 
   @override
-  State<labelInput> createState() => _labelInputState();
+  State<LabelInput> createState() => _LabelInputState();
 }
 
-// ignore: camel_case_types
-class _labelInputState extends State<labelInput> {
+class _LabelInputState extends State<LabelInput> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(widget.label, textAlign: TextAlign.left),
-        TextFormField(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0)
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Alineación del texto a la izquierda
+        children: [
+          Text(
+            widget.label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
-            filled: true,
-            fillColor: Colors.white,
-            hintText: "ej: 80"
           ),
-        ),
-      ],
+          TextFormField(
+            decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: "ej: 80",
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
