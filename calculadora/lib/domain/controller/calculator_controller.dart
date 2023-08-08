@@ -9,7 +9,6 @@ class CalculatorController implements Calculator {
   double _secondPartial = 0; 
   double _practicalNote = 0;
   double _remedial = 0;
-  double _minScore = 0.0;
 
   CalculatorController(
     this._theoricPorcentage,
