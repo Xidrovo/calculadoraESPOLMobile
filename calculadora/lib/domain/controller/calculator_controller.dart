@@ -9,6 +9,7 @@ class CalculatorController implements Calculator {
   double _secondPartial = 0; 
   double _practicalNote = 0;
   double _remedial = 0;
+  double _minScore = 0.0;
 
   CalculatorController(
     this._theoricPorcentage,
@@ -50,18 +51,18 @@ class CalculatorController implements Calculator {
     _remedial = value;
   }
 
-  double getHigherNumAvg() {
+  double _getHigherNumAvg() {
 		final double toSubstract = min(_firstPartial, min(_secondPartial, _remedial));
 		final double total = _firstPartial + _secondPartial + _remedial - toSubstract;
 
 		return total / 2;
   }
 
-  double getPracticalScore() => _practicalNote * ((100 - _theoricPorcentage) / 100);
+  double _getPracticalScore() => _practicalNote * ((100 - _theoricPorcentage) / 100);
 
   @override
   double getMinScore(value) {
-    final double practicalScore = getPracticalScore();
+    final double practicalScore = _getPracticalScore();
     if (value < 60) {
 			final double maxValue = max(_firstPartial, _secondPartial);
 			final double result = ((60 - practicalScore) * 2) / (_theoricPorcentage / 100) - maxValue;
@@ -74,12 +75,11 @@ class CalculatorController implements Calculator {
 
   @override
   double getTotal() {
-    final double theoricScore = getHigherNumAvg() * (_theoricPorcentage / 100);
-    final double practicalScore = getPracticalScore();
+    final double theoricScore = _getHigherNumAvg() * (_theoricPorcentage / 100);
+    final double practicalScore = _getPracticalScore();
 
 		final double result = theoricScore + practicalScore;
 		final double score = result;
-		getMinScore(result);
     return score;
   }
 
