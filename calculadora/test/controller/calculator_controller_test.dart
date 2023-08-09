@@ -6,7 +6,7 @@ void main() {
     late CalculatorController calculatorController;
 
     setUp(() {
-      calculatorController = CalculatorController(0,0,0,0,0);
+      calculatorController = CalculatorController(0, 0, 0, 0, 0);
     });
 
     test('getPracticalScore returns correct value', () {
@@ -44,11 +44,16 @@ void main() {
     });
 
     test('assertions values throw errors', () {
-      expect(() => calculatorController.theoricPorcentage = -10, throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.firstPartial = -10, throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.secondPartial = -10, throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.remedial = -10, throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.practicalNote = -10, throwsA(isA<AssertionError>()));
+      expect(() => calculatorController.theoricPorcentage = -10,
+          throwsA(isA<AssertionError>()));
+      expect(() => calculatorController.firstPartial = -10,
+          throwsA(isA<AssertionError>()));
+      expect(() => calculatorController.secondPartial = -10,
+          throwsA(isA<AssertionError>()));
+      expect(() => calculatorController.remedial = -10,
+          throwsA(isA<AssertionError>()));
+      expect(() => calculatorController.practicalNote = -10,
+          throwsA(isA<AssertionError>()));
     });
   });
 }
