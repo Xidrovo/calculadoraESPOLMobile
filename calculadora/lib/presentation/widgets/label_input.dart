@@ -1,15 +1,14 @@
-import 'dart:ffi';
-
 import 'package:calculadora/domain/entities/label_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../domain/controller/calculator_controller.dart';
+
 class LabelInput extends StatefulWidget {
   final String label;
   final CalculatorController calc;
   final labelTypeEnum labelType;
-  
+
   const LabelInput({
     super.key,
     required this.label,
@@ -17,7 +16,7 @@ class LabelInput extends StatefulWidget {
     required this.labelType,
   });
 
-  void onChangeHandle (value) {
+  void onChangeHandle(value) {
     double? doubleValue = double.tryParse(value ?? '');
     switch (labelType) {
       case labelTypeEnum.theoricPorcentage:
@@ -36,7 +35,7 @@ class LabelInput extends StatefulWidget {
         calc.remedial = doubleValue ?? 0;
         break;
       default:
-    }    
+    }
   }
 
   String? maxMinLimitValidator(value) {
@@ -52,7 +51,6 @@ class LabelInput extends StatefulWidget {
     }
     return null;
   }
-
 
   @override
   State<LabelInput> createState() => _LabelInputState();
@@ -80,9 +78,9 @@ class _LabelInputState extends State<LabelInput> {
               onChanged: (value) => widget.onChangeHandle(value),
               keyboardType: TextInputType.number,
               inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.digitsOnly,
               ],
-              validator: (value) => widget.maxMinLimitValidator(value),              
+              validator: (value) => widget.maxMinLimitValidator(value),
               decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
