@@ -10,6 +10,9 @@ class Message extends StatefulWidget {
 
   static const String _aprovedMessage = "¡ FELICIDADES HAS APROBADO :D !";
 
+  static const TextStyle _commonTextstyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500);
+  static const TextStyle _scoreTextstyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold );
+
   const Message({super.key, required this.score, required this.minimunScore});
 
   @override
@@ -38,34 +41,62 @@ class _MessageState extends State<Message> {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        const Text(
-          Message._aprovedMessage,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              Message._aprovedMessage,
+              textAlign: TextAlign.center,
+              style: Message._commonTextstyle,
+            ),
+            Text(
+              '${widget.score} de 100',
+              textAlign: TextAlign.center,
+              style: Message._scoreTextstyle,
+            ),
+          ],
         ),
         ConfettiWidget(
           confettiController: confettiController,
           blastDirection: -1.5708,
           emissionFrequency: 0.05,
-          numberOfParticles: 8,
+          numberOfParticles: 1,
         ),
       ],
     );
   }
 
   Widget _disAprovedBlockMessage() {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Text(
-          Message._disAprovedMessage,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+        Column(
+          children: [
+            const Text(
+              Message._disAprovedMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+            Text(
+              '${widget.score} de 100',
+              textAlign: TextAlign.center,
+              style: Message._scoreTextstyle,
+            ),
+          ],
         ),
-        Text(
-          Message._minScoreMessage,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+        Column(
+          children: [
+            const Text(
+              Message._minScoreMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+            Text(
+              '${widget.minimunScore}',
+              textAlign: TextAlign.center,
+              style: Message._scoreTextstyle,
+            ),
+          ],
         ),
       ],
     );
@@ -78,8 +109,8 @@ class _MessageState extends State<Message> {
         height: MediaQuery.of(context).size.height * 0.3,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: widget.score > 60 ? const Color(0xFF004448) : Colors.red),
-        child: widget.score > 60
+            color: widget.score >= 60 ? const Color(0xFF004448) : const Color(0xFFac2c15)),
+        child: widget.score >= 60
             ? _aprovedBlockMessage()
             : _disAprovedBlockMessage());
   }

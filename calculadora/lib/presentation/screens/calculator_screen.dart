@@ -15,12 +15,12 @@ class CalculatorScreen extends StatefulWidget {
 // ignore: camel_case_types
 class _CalculatorScreenState extends State<CalculatorScreen> {
   final CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
-  final double _totalValue = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 1.0,
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xFF004448),
         title: const Text('Calculadora de promedios'),

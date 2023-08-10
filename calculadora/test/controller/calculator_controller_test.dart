@@ -43,6 +43,16 @@ void main() {
       expect(result, 65.2);
     });
 
+    test('getTotal returns correct value', () {
+      calculatorController.theoricPorcentage = 10;
+      calculatorController.firstPartial = 50;
+      calculatorController.secondPartial = 60;
+      calculatorController.practicalNote = 59;
+      calculatorController.remedial = 78;
+      final result = calculatorController.getTotal();
+      expect(result, 60);
+    });
+
     test('assertions values throw errors', () {
       expect(() => calculatorController.theoricPorcentage = -10,
           throwsA(isA<AssertionError>()));
