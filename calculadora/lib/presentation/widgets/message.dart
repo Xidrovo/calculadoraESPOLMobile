@@ -37,6 +37,7 @@ class _MessageState extends State<Message> {
   Widget _aprovedBlockMessage() {
     if (mounted) {
       confettiController.play();
+      Future.delayed(const Duration(seconds: 5), () => confettiController.stop());      
     }
     return Stack(
       alignment: Alignment.topCenter,
@@ -53,20 +54,21 @@ class _MessageState extends State<Message> {
               '${widget.score} de 100',
               textAlign: TextAlign.center,
               style: Message._scoreTextstyle,
-            ),
+            )
           ],
         ),
         ConfettiWidget(
           confettiController: confettiController,
           blastDirection: -1.5708,
           emissionFrequency: 0.05,
-          numberOfParticles: 1,
+          numberOfParticles: 5,
         ),
       ],
     );
   }
 
   Widget _disAprovedBlockMessage() {
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
