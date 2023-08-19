@@ -63,7 +63,7 @@ class _LabelInputState extends State<LabelInput> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       child: Column(
         crossAxisAlignment:
-            CrossAxisAlignment.start, // Alineación del texto a la izquierda
+            CrossAxisAlignment.start,
         children: [
           Text(
             widget.label,
@@ -71,6 +71,9 @@ class _LabelInputState extends State<LabelInput> {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 2.5, top: 5)
           ),
           Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -85,6 +88,7 @@ class _LabelInputState extends State<LabelInput> {
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                 border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 filled: true,

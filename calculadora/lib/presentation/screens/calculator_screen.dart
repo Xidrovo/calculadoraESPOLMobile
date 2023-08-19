@@ -14,9 +14,18 @@ class CalculatorScreen extends StatefulWidget {
 
 // ignore: camel_case_types
 class _CalculatorScreenState extends State<CalculatorScreen> {
+  final GlobalKey widgetKey = GlobalKey();
   final CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
   final _scrollController = ScrollController();
-  
+  bool _showMessage = false;
+
+  double _getWidgetPosition() {
+    RenderBox renderBox =
+        widgetKey.currentContext?.findRenderObject() as RenderBox;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+    return position.dy;
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -37,26 +46,34 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           controller: _scrollController,
           child: Column(
             children: [
-              const Padding(padding: EdgeInsets.only(top:50)),
+              const Padding(padding: EdgeInsets.only(top: 50)),
               GradesForm(calc: _calc),
-              const Padding(padding: EdgeInsets.only(top:25)),
+              const Padding(padding: EdgeInsets.only(top: 25)),
               Button(
                   onPressed: () {
-                        setState(() {
-                          _calc.getTotal();
-                        });
-                        FocusScope.of(context).unfocus();
-                        _scrollController.animateTo(
-                          _scrollController.position.maxScrollExtent - 50,
-                          duration: const Duration(milliseconds: 350),
-                          curve: Curves.easeInOut,
-                        );
-                      },
+                    setState(() {
+                      _calc.getTotal();
+                    });
+                    _showMessage = true;
+                    FocusScope.of(context).unfocus();
+                    _getWidgetPosition();
+                    _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent - 50,
+                      duration: const Duration(milliseconds: 350),
+                      curve: Curves.easeInOut,
+                    );
+                  },
                   label: "¡Calcular!"),
-              const Padding(padding: EdgeInsets.only(top:25)),
-              Message(
-                  score: _calc.getTotal(),
-                  minimunScore: _calc.getMinScore(_calc.getTotal())),
+              const Padding(padding: EdgeInsets.only(top: 25)),
+              _showMessage
+                  ? Message(
+                      key: widgetKey,
+                      score: _calc.getTotal(),
+                      minimunScore: _calc.getMinScore(_calc.getTotal()))
+                  : Container(
+                      key: widgetKey,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                    ),
               const credits()
             ],
           ),
@@ -77,6 +94,7 @@ class GradesForm extends StatefulWidget {
   @override
   State<GradesForm> createState() => _GradesFormState();
 }
+
 // ignore: camel_case_types
 class credits extends StatelessWidget {
   const credits({
@@ -86,12 +104,15 @@ class credits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: const Color(0xFF004448), border: Border.all(width: 0, color: const Color(0xFF004448))),
+      decoration: BoxDecoration(
+          color: const Color(0xFF004448),
+          border: Border.all(width: 0, color: const Color(0xFF004448))),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       width: double.infinity,
       child: const Text(
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12),
-        "Las calificaciones se ingresan sobre 100 y se calcula su promedio de acuerdo al porcentaje práctico/teórico de la materia.\nCreado por: Xavier Idrovo Vallejo y Carlos Carvajal Villegas."),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12),
+          "Las calificaciones se ingresan sobre 100 y se calcula su promedio de acuerdo al porcentaje práctico/teórico de la materia.\nCreado por: Xavier Idrovo Vallejo y Carlos Carvajal Villegas."),
     );
   }
 }
