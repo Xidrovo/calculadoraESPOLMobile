@@ -23,6 +23,12 @@ class CalculatorController implements Calculator {
         'remedial must be between 0 and 100');
   }
 
+  double get theoricPorcentage => _theoricPorcentage;
+  double get firstPartial => _firstPartial;
+  double get secondPartial => _secondPartial;
+  double get practicalNote => _practicalNote;
+  double get remedial => _remedial;
+
   set theoricPorcentage(double value) {
     assert(value >= 0 && value <= 100,
         'Theoretical percentage must be between 0 and 100');
