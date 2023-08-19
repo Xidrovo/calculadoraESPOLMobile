@@ -111,7 +111,8 @@ class _MessageState extends State<Message> {
         height: MediaQuery.of(context).size.height * 0.3,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: widget.score >= 60 ? const Color(0xFF004448) : const Color(0xFFac2c15)),
+            color: widget.score >= 60 ? const Color(0xFF004448) : const Color(0xFFac2c15),
+            border: Border.all(width: 0, color: Colors.transparent)),
         child: widget.score >= 60
             ? _aprovedBlockMessage()
             : _disAprovedBlockMessage());
