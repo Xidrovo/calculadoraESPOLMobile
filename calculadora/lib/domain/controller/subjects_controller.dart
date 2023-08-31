@@ -22,7 +22,9 @@ class SubjectsController implements SubjectData {
 
   @override
   Future<Set<String>> getSubjectKeys() async {
-    return await helper.getAllKeys();
+    final data = await helper.getAllKeys();
+    print(data);
+    return data;
   }
 
   @override
@@ -35,7 +37,7 @@ class SubjectsController implements SubjectData {
       'remedial': calc.remedial
     };
     String jsonString = jsonEncode(castCalculator);
-
+    print('printing saved Data ${jsonString}');
     helper.saveSubjectData(subjectName, jsonString);
   }
 }

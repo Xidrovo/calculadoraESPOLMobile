@@ -1,9 +1,12 @@
 import "package:calculadora/domain/controller/calculator_controller.dart";
+import "package:calculadora/domain/controller/input_dialog_controller.dart";
 import "package:calculadora/domain/entities/label_type_enum.dart";
 import "package:calculadora/presentation/widgets/button.dart";
 import "package:calculadora/presentation/widgets/label_input.dart";
 import "package:calculadora/presentation/widgets/message.dart";
 import "package:flutter/material.dart";
+
+import "../../domain/controller/subjects_controller.dart";
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -17,6 +20,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   final GlobalKey widgetKey = GlobalKey();
   final CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
   final _scrollController = ScrollController();
+  final SubjectsController subjectController = SubjectsController();
+  final InputDialogController inputDialogController = InputDialogController();
+
   bool _showMessage = false;
 
   double _getWidgetPosition() {
@@ -49,21 +55,32 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               const Padding(padding: EdgeInsets.only(top: 50)),
               GradesForm(calc: _calc),
               const Padding(padding: EdgeInsets.only(top: 25)),
-              Button(
-                  onPressed: () {
-                    setState(() {
-                      _calc.getTotal();
-                    });
-                    _showMessage = true;
-                    FocusScope.of(context).unfocus();
-                    _getWidgetPosition();
-                    _scrollController.animateTo(
-                      _scrollController.position.maxScrollExtent - 50,
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  label: "¡Calcular!"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Button(
+                      onPressed: () {
+                        setState(() {
+                          _calc.getTotal();
+                        });
+                        _showMessage = true;
+                        FocusScope.of(context).unfocus();
+                        _getWidgetPosition();
+                        _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent - 50,
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      label: "¡Calcular!"),
+                  Button(
+                      onPressed: () {
+                        // inputDialog();
+                        inputDialogController.openInputDialog(context);
+                      },
+                      label: "¡Guardar datos!"),
+                ],
+              ),
               const Padding(padding: EdgeInsets.only(top: 25)),
               _showMessage
                   ? Message(

@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import SharedPreferences
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
