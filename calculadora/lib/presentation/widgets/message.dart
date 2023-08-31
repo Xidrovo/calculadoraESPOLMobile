@@ -5,13 +5,15 @@ class Message extends StatefulWidget {
   final double score;
   final double minimunScore;
 
-  static const String _disAprovedMessage = "¡ OH NO HAS REPROBADO :( !";
+  static const String _disAprovedMessage = "¡OH NO, HAS REPROBADO! :(";
   static const String _minScoreMessage = "NOTA MÍNIMA PARA APROBAR";
 
   static const String _aprovedMessage = "¡ FELICIDADES HAS APROBADO :D !";
 
-  static const TextStyle _commonTextstyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500);
-  static const TextStyle _scoreTextstyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold );
+  static const TextStyle _commonTextstyle =
+      TextStyle(color: Colors.white, fontWeight: FontWeight.w500);
+  static const TextStyle _scoreTextstyle =
+      TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
 
   const Message({super.key, required this.score, required this.minimunScore});
 
@@ -37,7 +39,8 @@ class _MessageState extends State<Message> {
   Widget _aprovedBlockMessage() {
     if (mounted) {
       confettiController.play();
-      Future.delayed(const Duration(seconds: 5), () => confettiController.stop());      
+      Future.delayed(
+          const Duration(seconds: 5), () => confettiController.stop());
     }
     return Stack(
       alignment: Alignment.topCenter,
@@ -68,7 +71,6 @@ class _MessageState extends State<Message> {
   }
 
   Widget _disAprovedBlockMessage() {
-    
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -111,7 +113,9 @@ class _MessageState extends State<Message> {
         height: MediaQuery.of(context).size.height * 0.3,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: widget.score >= 60 ? const Color(0xFF004448) : const Color(0xFFac2c15),
+            color: widget.score >= 60
+                ? const Color(0xFF004448)
+                : const Color(0xFFac2c15),
             border: Border.all(width: 0, color: Colors.transparent)),
         child: widget.score >= 60
             ? _aprovedBlockMessage()
