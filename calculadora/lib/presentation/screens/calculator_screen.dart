@@ -4,6 +4,7 @@ import "package:calculadora/domain/entities/label_type_enum.dart";
 import "package:calculadora/presentation/widgets/button.dart";
 import "package:calculadora/presentation/widgets/label_input.dart";
 import "package:calculadora/presentation/widgets/message.dart";
+import "package:calculadora/presentation/widgets/select.dart";
 import "package:flutter/material.dart";
 
 import "../../domain/controller/subjects_controller.dart";
@@ -24,12 +25,25 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   final InputDialogController inputDialogController = InputDialogController();
 
   bool _showMessage = false;
+  Set<String> _subjects = <String>{};
 
   double _getWidgetPosition() {
     RenderBox renderBox =
         widgetKey.currentContext?.findRenderObject() as RenderBox;
     Offset position = renderBox.localToGlobal(Offset.zero);
     return position.dy;
+  }
+
+  void _loadSubjects() async {
+    _subjects = await subjectController.getSubjectKeys();
+    if (_subjects.isNotEmpty) {
+      setState(() {});
+    }
+  }
+
+  void getSubjectScores(value) async {
+    setState(() {});
+    print(value);
   }
 
   @override
@@ -40,6 +54,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (mounted) {
+      _loadSubjects();
+    }
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 1.0,
@@ -53,6 +70,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           child: Column(
             children: [
               const Padding(padding: EdgeInsets.only(top: 50)),
+              _subjects.isNotEmpty
+                  ? Select(
+                      items: _subjects,
+                      setNewData: (String value) {},
+                    )
+                  : Container(),
               GradesForm(calc: _calc),
               const Padding(padding: EdgeInsets.only(top: 25)),
               Row(
@@ -60,6 +83,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 children: [
                   Button(
                       onPressed: () {
+                        subjectController
+                            .clearAllSubjects(); // This should be removed c:
                         setState(() {
                           _calc.getTotal();
                         });
@@ -74,9 +99,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       },
                       label: "¡Calcular!"),
                   Button(
-                      onPressed: () {
-                        // inputDialog();
-                        inputDialogController.openInputDialog(context);
+                      onPressed: () async {
+                        await inputDialogController.openInputDialog(
+                            context, subjectController, _calc);
+                        _loadSubjects();
                       },
                       label: "¡Guardar datos!"),
                 ],

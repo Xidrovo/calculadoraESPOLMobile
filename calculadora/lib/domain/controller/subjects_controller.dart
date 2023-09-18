@@ -23,12 +23,13 @@ class SubjectsController implements SubjectData {
   @override
   Future<Set<String>> getSubjectKeys() async {
     final data = await helper.getAllKeys();
-    print(data);
     return data;
   }
 
   @override
   void saveData(CalculatorController calc, String subjectName) {
+    // Should take a look if the subjectName already exist
+    // What happends if so?
     final castCalculator = {
       'theoricPorcentage': calc.theoricPorcentage,
       'firstPartial': calc.firstPartial,
@@ -37,7 +38,19 @@ class SubjectsController implements SubjectData {
       'remedial': calc.remedial
     };
     String jsonString = jsonEncode(castCalculator);
-    print('printing saved Data ${jsonString}');
     helper.saveSubjectData(subjectName, jsonString);
+  }
+
+  @override
+  void clearAllSubjects() {
+    helper.clear();
+  }
+
+  @override
+  void clearSubject(String subjectName) async {
+    final allSubjects = await helper.getAllKeys();
+    if (allSubjects.contains(subjectName)) {
+      helper.clearSubject(subjectName);
+    }
   }
 }

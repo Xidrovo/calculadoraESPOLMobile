@@ -16,4 +16,14 @@ class StorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getKeys();
   }
+
+  Future<void> clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
+  Future<void> clearSubject(String keyId) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove(keyId);
+  }
 }

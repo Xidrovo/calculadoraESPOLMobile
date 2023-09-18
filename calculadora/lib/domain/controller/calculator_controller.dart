@@ -11,16 +11,16 @@ class CalculatorController implements Calculator {
 
   CalculatorController(this._theoricPorcentage, this._firstPartial,
       this._secondPartial, this._practicalNote, this._remedial) {
-    assert(_theoricPorcentage >= 0 && _theoricPorcentage <= 100,
-        'Theoretical percentage must be between 0 and 100');
-    assert(_firstPartial >= 0 && _firstPartial <= 100,
-        'firstPartial must be between 0 and 100');
-    assert(_secondPartial >= 0 && _secondPartial <= 100,
-        'secondPartial must be between 0 and 100');
-    assert(_practicalNote >= 0 && _practicalNote <= 100,
-        'practicalNote must be between 0 and 100');
-    assert(_remedial >= 0 && _remedial <= 100,
-        'remedial must be between 0 and 100');
+    // assert(_theoricPorcentage >= 0 && _theoricPorcentage <= 100,
+    //     'Theoretical percentage must be between 0 and 100');
+    // assert(_firstPartial >= 0 && _firstPartial <= 100,
+    //     'firstPartial must be between 0 and 100');
+    // assert(_secondPartial >= 0 && _secondPartial <= 100,
+    //     'secondPartial must be between 0 and 100');
+    // assert(_practicalNote >= 0 && _practicalNote <= 100,
+    //     'practicalNote must be between 0 and 100');
+    // assert(_remedial >= 0 && _remedial <= 100,
+    //     'remedial must be between 0 and 100');
   }
 
   double get theoricPorcentage => _theoricPorcentage;
@@ -30,31 +30,31 @@ class CalculatorController implements Calculator {
   double get remedial => _remedial;
 
   set theoricPorcentage(double value) {
-    assert(value >= 0 && value <= 100,
-        'Theoretical percentage must be between 0 and 100');
+    // assert(value >= 0 && value <= 100,
+    //     'Theoretical percentage must be between 0 and 100');
     _theoricPorcentage = value;
   }
 
   set firstPartial(double value) {
-    assert(
-        value >= 0 && value <= 100, 'firstPartial must be between 0 and 100');
+    // assert(
+    //     value >= 0 && value <= 100, 'firstPartial must be between 0 and 100');
     _firstPartial = value;
   }
 
   set secondPartial(double value) {
-    assert(
-        value >= 0 && value <= 100, 'secondPartial must be between 0 and 100');
+    // assert(
+    //     value >= 0 && value <= 100, 'secondPartial must be between 0 and 100');
     _secondPartial = value;
   }
 
   set practicalNote(double value) {
-    assert(
-        value >= 0 && value <= 100, 'practicalNote must be between 0 and 100');
+    // assert(
+    //     value >= 0 && value <= 100, 'practicalNote must be between 0 and 100');
     _practicalNote = value;
   }
 
   set remedial(double value) {
-    assert(value >= 0 && value <= 100, 'remedial must be between 0 and 100');
+    // assert(value >= 0 && value <= 100, 'remedial must be between 0 and 100');
     _remedial = value;
   }
 
