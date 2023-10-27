@@ -9,16 +9,23 @@ class SubjectsController implements SubjectData {
   @override
   Future<CalculatorController> getData(String subjectName) async {
     final jsonData = await helper.getData(subjectName);
-    return getJsonData(jsonDecode(jsonData));
+    Map<String, dynamic> originalData = jsonDecode(jsonData);
+
+    // Casting the dynamic values to double after checking the content.
+    Map<String, double> convertedData = originalData.map((key, value) {
+      return MapEntry(key, value.toDouble());
+    });
+
+    return getJsonData(convertedData);
   }
 
   CalculatorController getJsonData(Map<String, double> json) =>
       CalculatorController(
-          double.parse(json['theoricPorcentage'] as String),
-          double.parse(json['firstPartial'] as String),
-          double.parse(json['secondPartial'] as String),
-          double.parse(json['practicalNote'] as String),
-          double.parse(json['remedial'] as String));
+          json['theoricPorcentage'] as double,
+          json['firstPartial'] as double,
+          json['secondPartial'] as double,
+          json['practicalNote'] as double,
+          json['remedial'] as double);
 
   @override
   Future<Set<String>> getSubjectKeys() async {

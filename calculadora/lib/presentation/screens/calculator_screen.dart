@@ -19,10 +19,12 @@ class CalculatorScreen extends StatefulWidget {
 // ignore: camel_case_types
 class _CalculatorScreenState extends State<CalculatorScreen> {
   final GlobalKey widgetKey = GlobalKey();
-  final CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
+  CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
   final _scrollController = ScrollController();
   final SubjectsController subjectController = SubjectsController();
   final InputDialogController inputDialogController = InputDialogController();
+  late Select select;
+  late GradesForm grades = GradesForm(calc: _calc);
 
   bool _showMessage = false;
   Set<String> _subjects = <String>{};
@@ -37,13 +39,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   void _loadSubjects() async {
     _subjects = await subjectController.getSubjectKeys();
     if (_subjects.isNotEmpty) {
+      select = Select(items: _subjects, callback: onChange);
       setState(() {});
     }
   }
 
   void getSubjectScores(value) async {
     setState(() {});
-    print(value);
+  }
+
+  void onChange(value) async {
+    _calc = await subjectController.getData(value);
+    grades = GradesForm(calc: _calc);
+    setState(() {});
   }
 
   @override
@@ -56,6 +64,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   Widget build(BuildContext context) {
     if (mounted) {
       _loadSubjects();
+      // grades = GradesForm(calc: _calc);
     }
     return Scaffold(
       appBar: AppBar(
@@ -70,21 +79,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           child: Column(
             children: [
               const Padding(padding: EdgeInsets.only(top: 50)),
-              _subjects.isNotEmpty
-                  ? Select(
-                      items: _subjects,
-                      setNewData: (String value) {},
-                    )
-                  : Container(),
-              GradesForm(calc: _calc),
+              _subjects.isNotEmpty ? select : Container(),
+              grades,
               const Padding(padding: EdgeInsets.only(top: 25)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Button(
                       onPressed: () {
-                        subjectController
-                            .clearAllSubjects(); // This should be removed c:
+                        // subjectController
+                        //     .clearAllSubjects(); // This should be removed c:
                         setState(() {
                           _calc.getTotal();
                         });
