@@ -16,7 +16,7 @@ jobs:
           name: Flutter pub get
           command: flutter pub get
       - run:
-          name: Build APK
+          name: Build a APK
           command: flutter build apk
   test:
     executor: flutter-executor
