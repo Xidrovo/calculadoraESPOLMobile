@@ -1,47 +1,34 @@
 version: 2.1
-
 executor:
-      flutter-executor: 
-        docker:
-          - image: cirrusci/flutter:stable  
-
+  flutter-executor:
+    docker:
+      - image: cirrusci/flutter:stable
 orbs:
   android: circleci/android@1.0.3
   flutter: circleci/flutter@1.1.0
-
 jobs:
   build:
-    executor: flutter-executor    
-    steps:
-      - checkout
-      run: git checkout v1.2.0
-      # - run:
-      #     name: Add Google services to App
-      #     command: echo "$GOOGLE_SERVICES" | base64 --decode > android/app/google-services.json
-
-      - run:
-          name: Flutter pub get
-          command: flutter pub get
-
-      - run:
-          name: Build APK
-          command: flutter build apk
-
-      # - store_artifacts:
-      #     path: build/app/outputs/flutter-apk/app-release.apk
-  test:
-    executor: flutter-executor 
+    executor: flutter-executor
     steps:
       - checkout
       - run: git checkout v1.2.0
       - run:
           name: Flutter pub get
           command: flutter pub get
-
+      - run:
+          name: Build APK
+          command: flutter build apk
+  test:
+    executor: flutter-executor
+    steps:
+      - checkout
+      - run: git checkout v1.2.0
+      - run:
+          name: Flutter pub get
+          command: flutter pub get
       - run:
           name: Run tests
           command: flutter test
-
 workflows:
   version: 2
   build_and_test:
