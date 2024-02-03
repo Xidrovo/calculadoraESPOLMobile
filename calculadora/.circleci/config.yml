@@ -20,6 +20,6 @@ jobs:
           cache-version: v1
 
       - run:
-          name: Flutter pub get
+          name: Flutter pub gets
           command: |
             flutter pub get
