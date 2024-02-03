@@ -1,14 +1,8 @@
-version: 2.1
+version: '2.1'
 orbs:
-  android: circleci/android@1.0.3
-  flutter: circleci/flutter@1.1.0
-jobs:
-  build:
-    executor:
-      name: android/android-machine
-      resource-class: medium
-    steps:
-      - checkout
-      - run: flutter doctor
-      - run: flutter test 
-      - run: flutter -v build apk
+  flutter: circleci/flutter@2.0
+workflows:
+  test:
+    jobs:
+      - flutter/unit_test:
+          version: 3.10.6
