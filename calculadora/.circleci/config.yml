@@ -14,10 +14,9 @@ jobs:
     executor: flutter-executor    
     steps:
       - checkout
-
-      - run:
-          name: Add Google services to App
-          command: echo "$GOOGLE_SERVICES" | base64 --decode > android/app/google-services.json
+      # - run:
+      #     name: Add Google services to App
+      #     command: echo "$GOOGLE_SERVICES" | base64 --decode > android/app/google-services.json
 
       - run:
           name: Flutter pub get
