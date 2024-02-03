@@ -4,12 +4,13 @@ import 'package:flutter/services.dart';
 
 import '../../domain/controller/calculator_controller.dart';
 
+// ignore: must_be_immutable
 class LabelInput extends StatefulWidget {
   final String label;
-  final CalculatorController calc;
+  CalculatorController calc;
   final labelTypeEnum labelType;
 
-  const LabelInput({
+  LabelInput({
     super.key,
     required this.label,
     required this.calc,
@@ -17,7 +18,7 @@ class LabelInput extends StatefulWidget {
   });
 
   void onChangeHandle(value) {
-    double? doubleValue = double.tryParse(value ?? '');
+    double? doubleValue = parseValue(double.tryParse(value ?? ''));
     switch (labelType) {
       case labelTypeEnum.theoricPorcentage:
         calc.theoricPorcentage = doubleValue ?? 0;
@@ -38,15 +39,45 @@ class LabelInput extends StatefulWidget {
     }
   }
 
+  double getsScoreValue() {
+    switch (labelType) {
+      case labelTypeEnum.theoricPorcentage:
+        return calc.theoricPorcentage;
+      case labelTypeEnum.firstPartial:
+        return calc.firstPartial;
+      case labelTypeEnum.secondPartial:
+        return calc.secondPartial;
+      case labelTypeEnum.practicalNote:
+        return calc.practicalNote;
+      case labelTypeEnum.remedial:
+        return calc.remedial;
+      default:
+        return 0.0;
+    }
+  }
+
+  double? parseValue(double? value) {
+    if (value == null) {
+      return null;
+    }
+    if (value > 100) {
+      return 100;
+    }
+    if (value < 0) {
+      return 0;
+    }
+    return value;
+  }
+
   String? maxMinLimitValidator(value) {
-    int? intValue = int.tryParse(value ?? '');
-    if (intValue == null) {
+    double? doubleValue = double.tryParse(value ?? '');
+    if (doubleValue == null) {
       return 'Debe agregar un valor';
     }
-    if (intValue > 100) {
+    if (doubleValue > 100) {
       return 'El Número no puede exceder de 100';
     }
-    if (intValue < 0) {
+    if (doubleValue < 0) {
       return 'El Número no puede ser menor a 0';
     }
     return null;
@@ -57,13 +88,27 @@ class LabelInput extends StatefulWidget {
 }
 
 class _LabelInputState extends State<LabelInput> {
+  final TextEditingController _controller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = widget.getsScoreValue().toString();
+  }
+
+  @override
+  void didUpdateWidget(LabelInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.getsScoreValue() != oldWidget.getsScoreValue()) {
+      _controller.text = widget.getsScoreValue().toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             widget.label,
@@ -72,12 +117,11 @@ class _LabelInputState extends State<LabelInput> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 2.5, top: 5)
-          ),
+          const Padding(padding: EdgeInsets.only(bottom: 2.5, top: 5)),
           Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: TextFormField(
+              controller: _controller,
               onChanged: (value) => widget.onChangeHandle(value),
               keyboardType: TextInputType.number,
               inputFormatters: [

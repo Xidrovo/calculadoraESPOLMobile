@@ -30,32 +30,33 @@ class CalculatorController implements Calculator {
   double get remedial => _remedial;
 
   set theoricPorcentage(double value) {
-    // assert(value >= 0 && value <= 100,
-    //     'Theoretical percentage must be between 0 and 100');
-    _theoricPorcentage = value;
+    _theoricPorcentage = mapValue(value);
   }
 
   set firstPartial(double value) {
-    // assert(
-    //     value >= 0 && value <= 100, 'firstPartial must be between 0 and 100');
-    _firstPartial = value;
+    _firstPartial = mapValue(value);
   }
 
   set secondPartial(double value) {
-    // assert(
-    //     value >= 0 && value <= 100, 'secondPartial must be between 0 and 100');
-    _secondPartial = value;
+    _secondPartial = mapValue(value);
   }
 
   set practicalNote(double value) {
-    // assert(
-    //     value >= 0 && value <= 100, 'practicalNote must be between 0 and 100');
-    _practicalNote = value;
+    _practicalNote = mapValue(value);
   }
 
   set remedial(double value) {
-    // assert(value >= 0 && value <= 100, 'remedial must be between 0 and 100');
-    _remedial = value;
+    _remedial = mapValue(value);
+  }
+
+  double mapValue(double value) {
+    if (value < 0) {
+      return 0;
+    } else if (value > 100) {
+      return 100;
+    } else {
+      return value;
+    }
   }
 
   double getHigherNumAvg() {

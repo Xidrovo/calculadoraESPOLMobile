@@ -50,8 +50,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   void onChange(value) async {
     _calc = await subjectController.getData(value);
-    grades = GradesForm(calc: _calc);
-    setState(() {});
+    setState(() {
+      grades = GradesForm(calc: _calc);
+    });
   }
 
   @override
@@ -130,13 +131,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 }
 
+// ignore: must_be_immutable
 class GradesForm extends StatefulWidget {
-  const GradesForm({
-    super.key,
-    required CalculatorController calc,
-  }) : _calc = calc;
+  CalculatorController calc;
 
-  final CalculatorController _calc;
+  GradesForm({Key? key, required this.calc}) : super(key: key);
 
   @override
   State<GradesForm> createState() => _GradesFormState();
@@ -174,24 +173,24 @@ class _GradesFormState extends State<GradesForm> {
           LabelInput(
               label: "Porcentaje teórico",
               labelType: labelTypeEnum.theoricPorcentage,
-              calc: widget._calc),
+              calc: widget.calc),
           const Padding(padding: EdgeInsets.only(bottom: 10.0)),
           LabelInput(
               label: "Primer parcial sobre 100",
               labelType: labelTypeEnum.firstPartial,
-              calc: widget._calc),
+              calc: widget.calc),
           LabelInput(
               label: "Segundo parcial sobre 100",
               labelType: labelTypeEnum.secondPartial,
-              calc: widget._calc),
+              calc: widget.calc),
           LabelInput(
               label: "Nota práctica",
               labelType: labelTypeEnum.practicalNote,
-              calc: widget._calc),
+              calc: widget.calc),
           LabelInput(
               label: "Mejoramiento",
               labelType: labelTypeEnum.remedial,
-              calc: widget._calc),
+              calc: widget.calc),
         ],
       ),
     );
