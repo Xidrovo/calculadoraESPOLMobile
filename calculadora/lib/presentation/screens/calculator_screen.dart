@@ -1,9 +1,13 @@
 import "package:calculadora/domain/controller/calculator_controller.dart";
+import "package:calculadora/domain/controller/input_dialog_controller.dart";
 import "package:calculadora/domain/entities/label_type_enum.dart";
 import "package:calculadora/presentation/widgets/button.dart";
 import "package:calculadora/presentation/widgets/label_input.dart";
 import "package:calculadora/presentation/widgets/message.dart";
+import "package:calculadora/presentation/widgets/select.dart";
 import "package:flutter/material.dart";
+
+import "../../domain/controller/subjects_controller.dart";
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -15,15 +19,40 @@ class CalculatorScreen extends StatefulWidget {
 // ignore: camel_case_types
 class _CalculatorScreenState extends State<CalculatorScreen> {
   final GlobalKey widgetKey = GlobalKey();
-  final CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
+  CalculatorController _calc = CalculatorController(100, 0, 0, 0, 0);
   final _scrollController = ScrollController();
+  final SubjectsController subjectController = SubjectsController();
+  final InputDialogController inputDialogController = InputDialogController();
+  late Select select;
+  late GradesForm grades = GradesForm(calc: _calc);
+
   bool _showMessage = false;
+  Set<String> _subjects = <String>{};
 
   double _getWidgetPosition() {
     RenderBox renderBox =
         widgetKey.currentContext?.findRenderObject() as RenderBox;
     Offset position = renderBox.localToGlobal(Offset.zero);
     return position.dy;
+  }
+
+  void _loadSubjects() async {
+    _subjects = await subjectController.getSubjectKeys();
+    if (_subjects.isNotEmpty) {
+      select = Select(items: _subjects, callback: onChange);
+      setState(() {});
+    }
+  }
+
+  void getSubjectScores(value) async {
+    setState(() {});
+  }
+
+  void onChange(value) async {
+    _calc = await subjectController.getData(value);
+    setState(() {
+      grades = GradesForm(calc: _calc);
+    });
   }
 
   @override
@@ -34,6 +63,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (mounted) {
+      _loadSubjects();
+      // grades = GradesForm(calc: _calc);
+    }
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 1.0,
@@ -47,23 +80,38 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           child: Column(
             children: [
               const Padding(padding: EdgeInsets.only(top: 50)),
-              GradesForm(calc: _calc),
+              _subjects.isNotEmpty ? select : Container(),
+              grades,
               const Padding(padding: EdgeInsets.only(top: 25)),
-              Button(
-                  onPressed: () {
-                    setState(() {
-                      _calc.getTotal();
-                    });
-                    _showMessage = true;
-                    FocusScope.of(context).unfocus();
-                    _getWidgetPosition();
-                    _scrollController.animateTo(
-                      _scrollController.position.maxScrollExtent - 50,
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  label: "¡Calcular!"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Button(
+                      onPressed: () {
+                        // subjectController
+                        //     .clearAllSubjects(); // This should be removed c:
+                        setState(() {
+                          _calc.getTotal();
+                        });
+                        _showMessage = true;
+                        FocusScope.of(context).unfocus();
+                        _getWidgetPosition();
+                        _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent - 50,
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      label: "¡Calcular!"),
+                  Button(
+                      onPressed: () async {
+                        await inputDialogController.openInputDialog(
+                            context, subjectController, _calc);
+                        _loadSubjects();
+                      },
+                      label: "¡Guardar datos!"),
+                ],
+              ),
               const Padding(padding: EdgeInsets.only(top: 25)),
               _showMessage
                   ? Message(
@@ -83,13 +131,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 }
 
+// ignore: must_be_immutable
 class GradesForm extends StatefulWidget {
-  const GradesForm({
-    super.key,
-    required CalculatorController calc,
-  }) : _calc = calc;
+  CalculatorController calc;
 
-  final CalculatorController _calc;
+  GradesForm({Key? key, required this.calc}) : super(key: key);
 
   @override
   State<GradesForm> createState() => _GradesFormState();
@@ -127,24 +173,24 @@ class _GradesFormState extends State<GradesForm> {
           LabelInput(
               label: "Porcentaje teórico",
               labelType: labelTypeEnum.theoricPorcentage,
-              calc: widget._calc),
+              calc: widget.calc),
           const Padding(padding: EdgeInsets.only(bottom: 10.0)),
           LabelInput(
               label: "Primer parcial sobre 100",
               labelType: labelTypeEnum.firstPartial,
-              calc: widget._calc),
+              calc: widget.calc),
           LabelInput(
               label: "Segundo parcial sobre 100",
               labelType: labelTypeEnum.secondPartial,
-              calc: widget._calc),
+              calc: widget.calc),
           LabelInput(
               label: "Nota práctica",
               labelType: labelTypeEnum.practicalNote,
-              calc: widget._calc),
+              calc: widget.calc),
           LabelInput(
               label: "Mejoramiento",
               labelType: labelTypeEnum.remedial,
-              calc: widget._calc),
+              calc: widget.calc),
         ],
       ),
     );

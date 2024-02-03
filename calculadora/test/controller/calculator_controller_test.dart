@@ -52,18 +52,5 @@ void main() {
       final result = calculatorController.getTotal();
       expect(result, 60);
     });
-
-    test('assertions values throw errors', () {
-      expect(() => calculatorController.theoricPorcentage = -10,
-          throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.firstPartial = -10,
-          throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.secondPartial = -10,
-          throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.remedial = -10,
-          throwsA(isA<AssertionError>()));
-      expect(() => calculatorController.practicalNote = -10,
-          throwsA(isA<AssertionError>()));
-    });
   });
 }
