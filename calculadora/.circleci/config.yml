@@ -1,37 +1,24 @@
-version: 2.1
-executor:
-  flutter-executor:
-    docker:
-      - image: cirrusci/flutter:stable
+version: '2.1'
 orbs:
   android: circleci/android@1.0.3
-  flutter: circleci/flutter@1.1.0
+  flutter: circleci/flutter@2.0
 jobs:
-  build:
-    executor: flutter-executor
+  distribute:
+    executor:
+      name: android/android-machine
     steps:
-      - checkout
-      - run: git checkout v1.2.0
+      - flutter/install_sdk_and_pub:
+          version: 3.0.3
+      - flutter/install_android_gradle_dependencies
+      - flutter/install_android_gem
       - run:
-          name: Flutter pub get
-          command: flutter pub get
-      - run:
-          name: Build a APK
-          command: flutter build apk
-  test:
-    executor: flutter-executor
-    steps:
-      - checkout
-      - run: git checkout v1.2.0
-      - run:
-          name: Flutter pub get
-          command: flutter pub get
-      - run:
-          name: Run tests
-          command: flutter test
+          command: bundle exec fastlane distribute
+          working_directory: ios
 workflows:
-  version: 2
-  build_and_test:
+  distribute:
     jobs:
-      - build
-      - test
+      - distribute
+  test:
+    jobs:
+      - flutter/unit_test:
+          version: 3.0.3
