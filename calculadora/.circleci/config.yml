@@ -1,0 +1,39 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@1.0.3
+  flutter: circleci/flutter@1.1.0
+
+jobs:
+  build:
+    executor:
+      name: android/android-machine
+      resource-class: medium
+    
+    steps:
+      - checkout
+
+      - flutter/install_sdk: 
+          version: 3.10.6
+
+      - flutter/install_pub:
+          cache-version: v1
+
+    
+      - run:
+          name: Add Google services to App
+          command: |
+            echo "$GOOGLE_SERVICES" | base64 --decode > android/app/google-services.json
+
+      - run:
+          name: Flutter pub get
+          command: |
+            flutter pub get
+
+      - run:
+          name: Build APK
+          command: |
+            flutter build apk
+
+      - store_artifacts:
+          path: build/app/outputs/flutter-apk/app-release.apk
