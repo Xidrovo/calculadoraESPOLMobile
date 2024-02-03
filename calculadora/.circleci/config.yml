@@ -1,25 +1,35 @@
 version: 2.1
-
-orbs:
-  android: circleci/android@1.0.3
-  flutter: circleci/flutter@1.1.0
-
+executors:
+  flutter-executor:
+    docker:
+      - image: cirrusci/flutter:stable
+    environment:
+      - FLUTTER_CHANNEL: stable
+      - FLUTTER_VERSION: latest
 jobs:
   build:
-    executor:
-      name: android/android-machine
-      resource-class: medium
-    
+    executor: flutter-executor
     steps:
       - checkout
-      - git checkout v1.2.0
-      - flutter/install_sdk: 
-          version: 3.10.6
-
-      - flutter/install_pub:
-          cache-version: v1
-
       - run:
-          name: Flutter pub gets
-          command: |
-            flutter pub get
+          name: Install Flutter dependencies
+          command: flutter pub get
+      - run:
+          name: Build
+          command: flutter build apk
+  test:
+    executor: flutter-executor
+    steps:
+      - checkout
+      - run:
+          name: Install Flutter dependencies
+          command: flutter pub get
+      - run:
+          name: Run tests
+          command: flutter test
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
+      - test
