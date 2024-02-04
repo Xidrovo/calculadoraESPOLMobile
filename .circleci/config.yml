@@ -8,11 +8,17 @@ jobs:
   unit_test:
     docker:
       - image: cirrusci/flutter:stable
+    environment:
+      - FLUTTER_CHANNEL: stable
+      - FLUTTER_VERSION: latest
     steps:
       - checkout
       - run:
           name: Show current working directory
-          command: ls -a
+          command: ls -a ~/
+      - run:
+          name: Upgrade Dart SDK
+          command: flutter upgrade
       - run:
           name: Install Flutter dependencies
           command: | 
