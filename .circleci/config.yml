@@ -18,8 +18,8 @@ jobs:
       - flutter/install_sdk: 
           version: 3.7.9
       - flutter/install_pub:
-          cache-version: v1    
-      - run: flutter doctor
+          cache-version: v1   
+      - run: ls -a 
       - run:
           name: Install Flutter dependencies
           command: flutter pub get
