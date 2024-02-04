@@ -14,22 +14,18 @@ jobs:
       - FLUTTER_VERSION: latest
     steps:
       - checkout
-      - install_sdk:
-          install-location: ./
-          version: 3.0.3
-      - install_pub:
-          app-dir: ./
-          cache-version: v1
+      - run: cd ./calculadora
+      - flutter/install_sdk: 
+          version: 3.7.9
+      - flutter/install_pub:
+          cache-version: v1    
+      - run: flutter doctor
       - run:
           name: Install Flutter dependencies
-          command: | 
-            cd ./calculadora
-            flutter pub get
+          command: flutter pub get
       - run:
           name: Run tests
-          command: | 
-            cd ./calculadora
-            flutter test
+          command: flutter test
 workflows:
   test:
     jobs:
