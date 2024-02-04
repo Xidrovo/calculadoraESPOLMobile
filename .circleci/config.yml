@@ -1,0 +1,13 @@
+version: '2.1'
+jobs:
+  build:
+    docker:
+      - image: circleci/flutter:latest
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: flutter pub get
+      - run:
+          name: Run tests
+          command: flutter test
