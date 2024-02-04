@@ -11,6 +11,7 @@ jobs:
       - checkout
       - run:
           name: Install Flutter dependencies
+          run: flutter upgrade
           command: |
             cd ~/project/calculadora
             flutter pub get
