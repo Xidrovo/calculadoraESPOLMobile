@@ -17,9 +17,6 @@ jobs:
       - flutter/install_sdk: 
           version: 3.7.9
       - run:
-          name: Change ownership of Flutter SDK
-          command: sudo chown -R circleci:circleci /root/usr/development/flutter        
-      - run:
           name: Install Flutter dependencies
           command: | 
             cd ./calculadora
