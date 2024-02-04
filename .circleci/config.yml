@@ -15,10 +15,14 @@ jobs:
           command: ls -a
       - run:
           name: Install Flutter dependencies
-          command: flutter pub get
+          command: | 
+            cd ./calculadora
+            flutter pub get
       - run:
           name: Run tests
-          command: flutter test
+          command: | 
+            cd ./calculadora
+            flutter test
 workflows:
   test:
     jobs:
