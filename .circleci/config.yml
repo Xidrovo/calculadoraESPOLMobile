@@ -14,8 +14,12 @@ jobs:
       - FLUTTER_VERSION: latest
     steps:
       - checkout
-      - flutter/install_sdk: 
-          version: 3.7.9
+      - install_sdk:
+          install-location: ./
+          version: 3.0.3
+      - install_pub:
+          app-dir: ./
+          cache-version: v1
       - run:
           name: Install Flutter dependencies
           command: | 
