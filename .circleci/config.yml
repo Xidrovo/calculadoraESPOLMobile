@@ -2,7 +2,7 @@ version: '2.1'
 jobs:
   build:
     docker:
-      - image: circleci/flutter:latest
+      - image: cirrusci/flutter:latest
     working_directory: ~/calculadora
     steps:
       - checkout
