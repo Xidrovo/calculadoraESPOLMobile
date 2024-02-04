@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/flutter:latest
+    working_directory: ~/calculadora
     steps:
       - checkout
       - run:
