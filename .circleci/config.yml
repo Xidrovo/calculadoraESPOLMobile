@@ -8,9 +8,11 @@ jobs:
   unit_test:
     docker:
       - image: cirrusci/flutter:stable
-    working_directory: ~/calculadora
     steps:
       - checkout
+      - run:
+          name: Show current working directory
+          command: pwd
       - run:
           name: Install Flutter dependencies
           command: flutter pub get
