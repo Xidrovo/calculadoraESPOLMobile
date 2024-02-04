@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   unit_test:
     docker:
-      - image: cirrusci/flutter:stable
+      - image: mobiledevops/flutter-sdk-image:3.16.4
     environment:
       - FLUTTER_CHANNEL: stable
       - FLUTTER_VERSION: latest
@@ -11,7 +11,6 @@ jobs:
       - checkout
       - run:
           name: Install Flutter dependencies
-          run: flutter upgrade
           command: |
             cd ~/project/calculadora
             flutter pub get
