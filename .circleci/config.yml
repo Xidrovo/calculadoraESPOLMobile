@@ -13,9 +13,14 @@ jobs:
       - FLUTTER_VERSION: latest
     steps:
       - checkout
+      - flutter/install_sdk: 
+          version: 3.7.9
+
+      - flutter/install_pub:
+          cache-version: v1
       - run:
           name: Show current working directory
-          command: ls -a ~/project
+          command: ls -a ~/project          
       - run:
           name: Install Flutter dependencies
           command: | 
