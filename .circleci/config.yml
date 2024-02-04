@@ -8,6 +8,7 @@ jobs:
   unit_test:
     docker:
       - image: cirrusci/flutter:stable
+    working_directory: ~/project/calculadora
     environment:
       - FLUTTER_CHANNEL: stable
       - FLUTTER_VERSION: latest
@@ -23,14 +24,10 @@ jobs:
           command: ls -a ~/project          
       - run:
           name: Install Flutter dependencies
-          command: | 
-            cd ./calculadora
-            flutter pub get
+          command: flutter pub get
       - run:
           name: Run tests
-          command: | 
-            cd ./calculadora
-            flutter test
+          command: flutter test
 workflows:
   test:
     jobs:
