@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run:
           name: Show current working directory
-          command: pwd
+          command: ls -a
       - run:
           name: Install Flutter dependencies
           command: flutter pub get
