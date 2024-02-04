@@ -1,14 +1,23 @@
-version: '2.1'
+version: 2.1
+
+orbs:
+  android: circleci/android@1.0.3
+  flutter: circleci/flutter@2.0.2
+
 jobs:
-  build:
+  unit_test:
     docker:
-      - image: cirrusci/flutter:latest
+      - image: cirrusci/flutter:stable
     working_directory: ~/calculadora
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Install Flutter dependencies
           command: flutter pub get
       - run:
           name: Run tests
           command: flutter test
+workflows:
+  test:
+    jobs:
+      - unit_test
