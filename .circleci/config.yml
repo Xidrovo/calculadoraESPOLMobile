@@ -15,10 +15,7 @@ jobs:
       - checkout
       - run:
           name: Show current working directory
-          command: ls -a ~/
-      - run:
-          name: Upgrade Dart SDK
-          command: flutter upgrade
+          command: ls -a ~/project
       - run:
           name: Install Flutter dependencies
           command: | 
