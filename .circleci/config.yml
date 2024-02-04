@@ -15,11 +15,11 @@ jobs:
     steps:
       - checkout
       - run: cd ./calculadora
+      - run: ls -a ./
       - flutter/install_sdk: 
           version: 3.7.9
       - flutter/install_pub:
-          cache-version: v1   
-      - run: ls -a 
+          cache-version: v1       
       - run:
           name: Install Flutter dependencies
           command: flutter pub get
