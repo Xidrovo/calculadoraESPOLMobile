@@ -9,6 +9,7 @@ jobs:
       - FLUTTER_VERSION: latest
     steps:
       - checkout
+      - run: ls -a
       - run:
           name: Install Flutter dependencies
           command: |
