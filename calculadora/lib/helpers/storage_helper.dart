@@ -1,10 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageHelper {
-  Future<void> saveSubjectData(String key, String value) async {
+  Future<bool> saveSubjectData(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
 
     prefs.setString(key, value);
+    return true;
   }
 
   Future<String> getData(String key) async {
