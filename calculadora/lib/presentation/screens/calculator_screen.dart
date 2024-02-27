@@ -28,6 +28,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   bool _showMessage = false;
   Set<String> _subjects = <String>{};
+  String currentSubject = "";
 
   double _getWidgetPosition() {
     RenderBox renderBox =
@@ -51,6 +52,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   void onChange(value) async {
     _calc = await subjectController.getData(value);
     setState(() {
+      currentSubject = value;
       grades = GradesForm(calc: _calc);
     });
   }
@@ -106,10 +108,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   Button(
                       onPressed: () async {
                         await inputDialogController.openInputDialog(
-                            context, subjectController, _calc);
+                            context, subjectController, _calc, currentSubject);
                         _loadSubjects();
                       },
-                      label: "¡Guardar datos!"),
+                      label: "Guardar datos"),
                 ],
               ),
               const Padding(padding: EdgeInsets.only(top: 25)),

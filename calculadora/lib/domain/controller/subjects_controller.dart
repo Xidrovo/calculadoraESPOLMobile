@@ -8,6 +8,10 @@ class SubjectsController implements SubjectData {
 
   @override
   Future<CalculatorController> getData(String subjectName) async {
+    if (subjectName == "") {
+      //should return an empty values
+      return CalculatorController(100, 0, 0, 0, 0);
+    }
     final jsonData = await helper.getData(subjectName);
     Map<String, dynamic> originalData = jsonDecode(jsonData);
 

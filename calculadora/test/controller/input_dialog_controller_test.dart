@@ -17,11 +17,10 @@ void main() {
               child: ElevatedButton(
                 onPressed: () {
                   InputDialogController().openInputDialog(
-                    context,
-                    SubjectsController(), // Mock or dummy implementation
-                    CalculatorController(
-                        0, 0, 0, 0, 0), // Mock or dummy implementation
-                  );
+                      context,
+                      SubjectsController(), // Mock or dummy implementation
+                      CalculatorController(0, 0, 0, 0, 0),
+                      '');
                 },
                 child: const Text('Open Dialog'),
               ),
