@@ -38,7 +38,7 @@ void main() {
 
       // Expected CalculatorController based on the pre-populated JSON
       final expectedCalculatorController =
-          CalculatorController(30.0, 25.0, 25.0, 15.0, 5.0);
+          CalculatorController(30, 25, 25, 15, 5);
 
       // Actual result from SubjectsController
       final result = await subjectsController.getData('Math');

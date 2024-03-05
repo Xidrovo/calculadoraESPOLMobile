@@ -18,28 +18,28 @@ class LabelInput extends StatefulWidget {
   });
 
   void onChangeHandle(value) {
-    double? doubleValue = parseValue(double.tryParse(value ?? ''));
+    int? parsedValue = parseValue(double.tryParse(value ?? ''));
     switch (labelType) {
       case labelTypeEnum.theoricPorcentage:
-        calc.theoricPorcentage = doubleValue ?? 0;
+        calc.theoricPorcentage = parsedValue ?? 0;
         break;
       case labelTypeEnum.firstPartial:
-        calc.firstPartial = doubleValue ?? 0;
+        calc.firstPartial = parsedValue ?? 0;
         break;
       case labelTypeEnum.secondPartial:
-        calc.secondPartial = doubleValue ?? 0;
+        calc.secondPartial = parsedValue ?? 0;
         break;
       case labelTypeEnum.practicalNote:
-        calc.practicalNote = doubleValue ?? 0;
+        calc.practicalNote = parsedValue ?? 0;
         break;
       case labelTypeEnum.remedial:
-        calc.remedial = doubleValue ?? 0;
+        calc.remedial = parsedValue ?? 0;
         break;
       default:
     }
   }
 
-  double getsScoreValue() {
+  int getsScoreValue() {
     switch (labelType) {
       case labelTypeEnum.theoricPorcentage:
         return calc.theoricPorcentage;
@@ -52,11 +52,11 @@ class LabelInput extends StatefulWidget {
       case labelTypeEnum.remedial:
         return calc.remedial;
       default:
-        return 0.0;
+        return 0;
     }
   }
 
-  double? parseValue(double? value) {
+  int? parseValue(double? value) {
     if (value == null) {
       return null;
     }
@@ -66,7 +66,7 @@ class LabelInput extends StatefulWidget {
     if (value < 0) {
       return 0;
     }
-    return value;
+    return value.toInt();
   }
 
   String? maxMinLimitValidator(value) {

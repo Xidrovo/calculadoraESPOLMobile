@@ -16,20 +16,20 @@ class SubjectsController implements SubjectData {
     Map<String, dynamic> originalData = jsonDecode(jsonData);
 
     // Casting the dynamic values to double after checking the content.
-    Map<String, double> convertedData = originalData.map((key, value) {
-      return MapEntry(key, value.toDouble());
+    Map<String, int> convertedData = originalData.map((key, value) {
+      return MapEntry(key, value.toInt());
     });
 
     return getJsonData(convertedData);
   }
 
-  CalculatorController getJsonData(Map<String, double> json) =>
+  CalculatorController getJsonData(Map<String, int> json) =>
       CalculatorController(
-          json['theoricPorcentage'] as double,
-          json['firstPartial'] as double,
-          json['secondPartial'] as double,
-          json['practicalNote'] as double,
-          json['remedial'] as double);
+          json['theoricPorcentage'] as int,
+          json['firstPartial'] as int,
+          json['secondPartial'] as int,
+          json['practicalNote'] as int,
+          json['remedial'] as int);
 
   @override
   Future<Set<String>> getSubjectKeys() async {
@@ -39,8 +39,6 @@ class SubjectsController implements SubjectData {
 
   @override
   void saveData(CalculatorController calc, String subjectName) {
-    // Should take a look if the subjectName already exist
-    // What happends if so?
     final castCalculator = {
       'theoricPorcentage': calc.theoricPorcentage,
       'firstPartial': calc.firstPartial,
@@ -58,10 +56,10 @@ class SubjectsController implements SubjectData {
   }
 
   @override
-  void clearSubject(String subjectName) async {
+  Future<void> clearSubject(String subjectName) async {
     final allSubjects = await helper.getAllKeys();
     if (allSubjects.contains(subjectName)) {
-      helper.clearSubject(subjectName);
+      await helper.clearSubject(subjectName);
     }
   }
 }

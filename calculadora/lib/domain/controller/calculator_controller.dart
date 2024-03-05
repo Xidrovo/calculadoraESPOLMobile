@@ -3,53 +3,42 @@ import 'dart:math';
 import 'package:calculadora/domain/entities/calculator.dart';
 
 class CalculatorController implements Calculator {
-  double _theoricPorcentage = 0;
-  double _firstPartial = 0;
-  double _secondPartial = 0;
-  double _practicalNote = 0;
-  double _remedial = 0;
+  int _theoricPorcentage = 0;
+  int _firstPartial = 0;
+  int _secondPartial = 0;
+  int _practicalNote = 0;
+  int _remedial = 0;
 
   CalculatorController(this._theoricPorcentage, this._firstPartial,
-      this._secondPartial, this._practicalNote, this._remedial) {
-    // assert(_theoricPorcentage >= 0 && _theoricPorcentage <= 100,
-    //     'Theoretical percentage must be between 0 and 100');
-    // assert(_firstPartial >= 0 && _firstPartial <= 100,
-    //     'firstPartial must be between 0 and 100');
-    // assert(_secondPartial >= 0 && _secondPartial <= 100,
-    //     'secondPartial must be between 0 and 100');
-    // assert(_practicalNote >= 0 && _practicalNote <= 100,
-    //     'practicalNote must be between 0 and 100');
-    // assert(_remedial >= 0 && _remedial <= 100,
-    //     'remedial must be between 0 and 100');
-  }
+      this._secondPartial, this._practicalNote, this._remedial) {}
 
-  double get theoricPorcentage => _theoricPorcentage;
-  double get firstPartial => _firstPartial;
-  double get secondPartial => _secondPartial;
-  double get practicalNote => _practicalNote;
-  double get remedial => _remedial;
+  int get theoricPorcentage => _theoricPorcentage;
+  int get firstPartial => _firstPartial;
+  int get secondPartial => _secondPartial;
+  int get practicalNote => _practicalNote;
+  int get remedial => _remedial;
 
-  set theoricPorcentage(double value) {
+  set theoricPorcentage(int value) {
     _theoricPorcentage = mapValue(value);
   }
 
-  set firstPartial(double value) {
+  set firstPartial(int value) {
     _firstPartial = mapValue(value);
   }
 
-  set secondPartial(double value) {
+  set secondPartial(int value) {
     _secondPartial = mapValue(value);
   }
 
-  set practicalNote(double value) {
+  set practicalNote(int value) {
     _practicalNote = mapValue(value);
   }
 
-  set remedial(double value) {
+  set remedial(int value) {
     _remedial = mapValue(value);
   }
 
-  double mapValue(double value) {
+  int mapValue(int value) {
     if (value < 0) {
       return 0;
     } else if (value > 100) {
@@ -60,10 +49,8 @@ class CalculatorController implements Calculator {
   }
 
   double getHigherNumAvg() {
-    final double toSubstract =
-        min(_firstPartial, min(_secondPartial, _remedial));
-    final double total =
-        _firstPartial + _secondPartial + _remedial - toSubstract;
+    final int toSubstract = min(_firstPartial, min(_secondPartial, _remedial));
+    final int total = _firstPartial + _secondPartial + _remedial - toSubstract;
 
     return total / 2;
   }
@@ -75,7 +62,7 @@ class CalculatorController implements Calculator {
   double getMinScore(value) {
     final double practicalScore = getPracticalScore();
     if (value < 60) {
-      final double maxValue = max(_firstPartial, _secondPartial);
+      final int maxValue = max(_firstPartial, _secondPartial);
       final double result =
           ((60 - practicalScore) * 2) / (_theoricPorcentage / 100) - maxValue;
       if (result.isFinite) {

@@ -90,8 +90,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 children: [
                   Button(
                       onPressed: () {
-                        // subjectController
-                        //     .clearAllSubjects(); // This should be removed c:
                         setState(() {
                           _calc.getTotal();
                         });

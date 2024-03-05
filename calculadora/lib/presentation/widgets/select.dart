@@ -110,24 +110,27 @@ class _selectState extends State<Select> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Delete'),
+          title: const Text('¿Borrar materia?'),
           content: Text('Estás seguro que quieres eliminar $value'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Delete'),
-              onPressed: () {
+              child: const Text('Borrar'),
+              onPressed: () async {
                 // handle delete action
-                widget.subjectController.clearSubject(value);
+                await widget.subjectController.clearSubject(value);
                 setState(() {
+                  _items = Set<String>.from(_items)..remove(value);
                   dropdownValue = null;
                 });
-                Navigator.of(context).pop();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context).pop();
+                });
               },
             ),
           ],
