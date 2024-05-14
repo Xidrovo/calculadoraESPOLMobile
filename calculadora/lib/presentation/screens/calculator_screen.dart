@@ -24,6 +24,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   final SubjectsController subjectController = SubjectsController();
   final InputDialogController inputDialogController = InputDialogController();
   late Select select;
+  String _subject = "";
   late GradesForm grades = GradesForm(calc: _calc);
 
   bool _showMessage = false;
@@ -45,16 +46,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     }
   }
 
-  void getSubjectScores(value) async {
-    setState(() {});
-  }
-
-  void onChange(value) async {
+  void onChange(String value) async {
     _calc = await subjectController.getData(value);
     setState(() {
       currentSubject = value;
       grades = GradesForm(calc: _calc);
+      _subject = value;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSubjects();
   }
 
   @override
@@ -65,10 +69,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (mounted) {
-      _loadSubjects();
-      // grades = GradesForm(calc: _calc);
-    }
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 1.0,
@@ -89,27 +89,35 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Button(
-                      onPressed: () {
-                        setState(() {
-                          _calc.getTotal();
-                        });
-                        _showMessage = true;
-                        FocusScope.of(context).unfocus();
-                        _getWidgetPosition();
-                        _scrollController.animateTo(
-                          _scrollController.position.maxScrollExtent - 50,
-                          duration: const Duration(milliseconds: 350),
-                          curve: Curves.easeInOut,
-                        );
-                      },
-                      label: "¡Calcular!"),
+                    onPressed: () {
+                      setState(() {
+                        _calc.getTotal();
+                      });
+                      _showMessage = true;
+                      FocusScope.of(context).unfocus();
+                      _getWidgetPosition();
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent - 50,
+                        duration: const Duration(milliseconds: 350),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    label: "¡Calcular!",
+                  ),
                   Button(
-                      onPressed: () async {
-                        await inputDialogController.openInputDialog(
-                            context, subjectController, _calc, currentSubject);
-                        _loadSubjects();
-                      },
-                      label: "Guardar datos"),
+                    onPressed: () async {
+                      await inputDialogController.openInputDialog(
+                        context,
+                        subjectController,
+                        _calc,
+                        _subject,
+                      );
+                      _loadSubjects();
+                    },
+                    label: _subject.isNotEmpty
+                        ? "¡Actualizar datos!"
+                        : "¡Guardar datos!",
+                  ),
                 ],
               ),
               const Padding(padding: EdgeInsets.only(top: 25)),
@@ -122,7 +130,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       key: widgetKey,
                       height: MediaQuery.of(context).size.height * 0.3,
                     ),
-              const credits()
+              const Credits()
             ],
           ),
         ),
@@ -135,15 +143,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 class GradesForm extends StatefulWidget {
   CalculatorController calc;
 
-  GradesForm({Key? key, required this.calc}) : super(key: key);
+  GradesForm({super.key, required this.calc});
 
   @override
   State<GradesForm> createState() => _GradesFormState();
 }
 
-// ignore: camel_case_types
-class credits extends StatelessWidget {
-  const credits({
+class Credits extends StatelessWidget {
+  const Credits({
     super.key,
   });
 

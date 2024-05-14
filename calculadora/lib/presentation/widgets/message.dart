@@ -5,14 +5,14 @@ class Message extends StatefulWidget {
   final double score;
   final double minimunScore;
 
-  static const String _disAprovedMessage = "¡OH NO, HAS REPROBADO! :(";
+  static const String _disApprovedMessage = "¡OH NO, HAS REPROBADO! :(";
   static const String _minScoreMessage = "NOTA MÍNIMA PARA APROBAR";
 
-  static const String _aprovedMessage = "¡ FELICIDADES HAS APROBADO :D !";
+  static const String _approvedMessage = "¡ FELICIDADES HAS APROBADO :D !";
 
-  static const TextStyle _commonTextstyle =
+  static const TextStyle _commonTextStyle =
       TextStyle(color: Colors.white, fontWeight: FontWeight.w500);
-  static const TextStyle _scoreTextstyle =
+  static const TextStyle _scoreTextStyle =
       TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
 
   const Message({super.key, required this.score, required this.minimunScore});
@@ -36,55 +36,61 @@ class _MessageState extends State<Message> {
     super.dispose();
   }
 
-  Widget _aprovedBlockMessage() {
-    if (mounted) {
-      confettiController.play();
+  @override
+  Widget build(BuildContext context) {
+    final bool isApproved = widget.score >= 60;
+    final Color backgroundColor =
+        isApproved ? const Color(0xFF004448) : const Color(0xFFac2c15);
+    final double containerHeight = MediaQuery.of(context).size.height * 0.3;
+
+    if (isApproved) {
       Future.delayed(
-          const Duration(seconds: 5), () => confettiController.stop());
+        const Duration(seconds: 3),
+        () => confettiController.stop(),
+      );
     }
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              Message._aprovedMessage,
-              textAlign: TextAlign.center,
-              style: Message._commonTextstyle,
-            ),
-            Text(
-              '${widget.score} de 100',
-              textAlign: TextAlign.center,
-              style: Message._scoreTextstyle,
+
+    return Container(
+      width: double.infinity,
+      height: containerHeight,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        border: Border.all(width: 0, color: Colors.transparent),
+      ),
+      child: isApproved
+          ? _ApprovedMessage(
+              widget: widget,
+              confettiController: confettiController,
             )
-          ],
-        ),
-        ConfettiWidget(
-          confettiController: confettiController,
-          blastDirection: -1.5708,
-          emissionFrequency: 0.05,
-          numberOfParticles: 5,
-        ),
-      ],
+          : _DisApprovedMessage(widget: widget),
     );
   }
+}
 
-  Widget _disAprovedBlockMessage() {
+class _DisApprovedMessage extends StatelessWidget {
+  const _DisApprovedMessage({
+    required this.widget,
+  });
+
+  final Message widget;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Column(
           children: [
             const Text(
-              Message._disAprovedMessage,
+              Message._disApprovedMessage,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),
             ),
             Text(
               '${widget.score} de 100',
               textAlign: TextAlign.center,
-              style: Message._scoreTextstyle,
+              style: Message._scoreTextStyle,
             ),
           ],
         ),
@@ -98,27 +104,51 @@ class _MessageState extends State<Message> {
             Text(
               '${widget.minimunScore}',
               textAlign: TextAlign.center,
-              style: Message._scoreTextstyle,
+              style: Message._scoreTextStyle,
             ),
           ],
         ),
       ],
     );
   }
+}
+
+class _ApprovedMessage extends StatelessWidget {
+  const _ApprovedMessage({
+    required this.widget,
+    required this.confettiController,
+  });
+
+  final Message widget;
+  final ConfettiController confettiController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.3,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: widget.score >= 60
-                ? const Color(0xFF004448)
-                : const Color(0xFFac2c15),
-            border: Border.all(width: 0, color: Colors.transparent)),
-        child: widget.score >= 60
-            ? _aprovedBlockMessage()
-            : _disAprovedBlockMessage());
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              Message._approvedMessage,
+              textAlign: TextAlign.center,
+              style: Message._commonTextStyle,
+            ),
+            Text(
+              '${widget.score} de 100',
+              textAlign: TextAlign.center,
+              style: Message._scoreTextStyle,
+            )
+          ],
+        ),
+        ConfettiWidget(
+          confettiController: confettiController,
+          blastDirection: -1.5708,
+          emissionFrequency: 0.05,
+          numberOfParticles: 5,
+        ),
+      ],
+    );
   }
 }
