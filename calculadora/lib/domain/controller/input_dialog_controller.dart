@@ -4,27 +4,34 @@ import 'package:flutter/material.dart';
 
 import '../../presentation/widgets/button.dart';
 
-// ignore: camel_case_types
 class InputDialogController {
   late String _subjectName;
 
-  Future openInputDialog(BuildContext context,
-          SubjectsController subjectController, CalculatorController calc) =>
+  Future openInputDialog(
+    BuildContext context,
+    SubjectsController subjectController,
+    CalculatorController calc,
+    String subjectName,
+  ) =>
       showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: const Text('Nombre de la materia'),
-                content: TextField(
-                    onChanged: (value) => _subjectName = value,
-                    decoration: const InputDecoration(hintText: 'Materia')),
-                actions: [
-                  Button(
-                    onPressed: () {
-                      subjectController.saveData(calc, _subjectName);
-                      Navigator.of(context).pop();
-                    },
-                    label: 'Guardar',
-                  )
-                ],
-              ));
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Nombre de la materia'),
+          content: TextField(
+            onChanged: (value) => _subjectName = value,
+            decoration: InputDecoration(
+              hintText: subjectName.isEmpty ? "Materia" : subjectName,
+            ),
+          ),
+          actions: [
+            Button(
+              onPressed: () {
+                subjectController.saveData(calc, _subjectName);
+                Navigator.of(context).pop();
+              },
+              label: 'Guardar',
+            )
+          ],
+        ),
+      );
 }
