@@ -10,7 +10,7 @@ class CalculatorController implements Calculator {
   int _remedial = 0;
 
   CalculatorController(this._theoricPorcentage, this._firstPartial,
-      this._secondPartial, this._practicalNote, this._remedial) {}
+      this._secondPartial, this._practicalNote, this._remedial);
 
   int get theoricPorcentage => _theoricPorcentage;
   int get firstPartial => _firstPartial;

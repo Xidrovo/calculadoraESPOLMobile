@@ -13,7 +13,7 @@ void main() {
     // Verify that our CalculatorScreen has a title.
     expect(find.text('Calculadora de promedios'), findsOneWidget);
     expect(find.text('¡Calcular!'), findsOneWidget);
-    expect(find.text('Guardar datos'), findsOneWidget);
+    expect(find.text('¡Guardar datos!'), findsOneWidget);
     expect(
         find.text(
             'Las calificaciones se ingresan sobre 100 y se calcula su promedio de acuerdo al porcentaje práctico/teórico de la materia.\nCreado por: Xavier Idrovo Vallejo y Carlos Carvajal Villegas.'),

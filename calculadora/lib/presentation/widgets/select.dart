@@ -24,6 +24,7 @@ class Select extends StatefulWidget {
 class _selectState extends State<Select> {
   String? dropdownValue;
   late Set<String> _items;
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +100,7 @@ class _selectState extends State<Select> {
                 ),
               ),
             );
+            // ignore: unnecessary_to_list_in_spreads
           }).toList()
         ],
       ),
@@ -111,7 +113,8 @@ class _selectState extends State<Select> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('¿Borrar materia?'),
-          content: Text('Estás seguro que quieres eliminar $value'),
+          content: Text(
+              'Estás seguro que quieres eliminar "$value" de la lista de materias?'),
           actions: <Widget>[
             TextButton(
               child: const Text('Cancelar'),
@@ -125,8 +128,9 @@ class _selectState extends State<Select> {
                 // handle delete action
                 await widget.subjectController.clearSubject(value);
                 setState(() {
-                  _items = Set<String>.from(_items)..remove(value);
+                  _items.remove(value);
                   dropdownValue = null;
+                  Navigator.of(context).pop();
                 });
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context).pop();
