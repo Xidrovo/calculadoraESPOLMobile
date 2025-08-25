@@ -35,8 +35,7 @@ class LabelInput extends StatefulWidget {
       case labelTypeEnum.remedial:
         calc.remedial = parsedValue ?? 0;
         break;
-      default:
-    }
+      }
   }
 
   int getsScoreValue() {
@@ -51,9 +50,7 @@ class LabelInput extends StatefulWidget {
         return calc.practicalNote;
       case labelTypeEnum.remedial:
         return calc.remedial;
-      default:
-        return 0;
-    }
+      }
   }
 
   int? parseValue(double? value) {
